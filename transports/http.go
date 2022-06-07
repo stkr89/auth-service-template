@@ -19,12 +19,12 @@ type errorWrapper struct {
 
 func NewHTTPHandler(endpoints endpoints.Endpoints) http.Handler {
 	m := mux.NewRouter()
-	m.Handle("/api/add/v1", httptransport.NewServer(
+	m.Handle("/api/v1/register", httptransport.NewServer(
 		endpoint.Chain(
-			middleware.ValidateAddInput(),
-			middleware.ConformAddInput(),
-		)(endpoints.Add),
-		decodeHTTPAddRequest,
+			middleware.ValidateCreateUserInput(),
+			middleware.ConformCreateUserInput(),
+		)(endpoints.CreateUser),
+		decodeHTTPCreateUserRequest,
 		encodeHTTPGenericResponse,
 	)).Methods(http.MethodPost)
 
@@ -53,8 +53,8 @@ func encodeHTTPGenericResponse(ctx context.Context, w http.ResponseWriter, respo
 	return json.NewEncoder(w).Encode(response)
 }
 
-func decodeHTTPAddRequest(_ context.Context, r *http.Request) (interface{}, error) {
-	var req types.MathRequest
+func decodeHTTPCreateUserRequest(_ context.Context, r *http.Request) (interface{}, error) {
+	var req types.CreateUserRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	return &req, err
 }

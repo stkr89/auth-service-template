@@ -7,10 +7,10 @@ import (
 	"github.com/stkr89/authsvc/types"
 )
 
-func ConformAddInput() endpoint.Middleware {
+func ConformCreateUserInput() endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (interface{}, error) {
-			req := request.(*types.MathRequest)
+			req := request.(*types.CreateUserRequest)
 			err := conform.Strings(req)
 			if err != nil {
 				return nil, err

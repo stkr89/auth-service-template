@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/stkr89/authsvc/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -20,7 +21,9 @@ func NewDB() gorm.DB {
 }
 
 func InitialDBMigration(db gorm.DB) error {
-	var m []interface{}
+	m := []interface{}{
+		&models.User{},
+	}
 
 	for _, m := range m {
 		err := db.AutoMigrate(m)
