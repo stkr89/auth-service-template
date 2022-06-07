@@ -3,12 +3,11 @@ package server
 import (
 	"fmt"
 	"github.com/go-kit/log"
-	"github.com/stkr89/mathsvc/common"
-	"github.com/stkr89/mathsvc/config"
-	"github.com/stkr89/mathsvc/endpoints"
-	"github.com/stkr89/mathsvc/pb"
-	"github.com/stkr89/mathsvc/service"
-	transport "github.com/stkr89/mathsvc/transports"
+	"github.com/stkr89/authsvc/common"
+	"github.com/stkr89/authsvc/config"
+	"github.com/stkr89/authsvc/endpoints"
+	"github.com/stkr89/authsvc/service"
+	transport "github.com/stkr89/authsvc/transports"
 	"net"
 	"net/http"
 	"os"
@@ -17,7 +16,6 @@ import (
 
 	"github.com/go-kit/kit/log/level"
 	"github.com/joho/godotenv"
-	"google.golang.org/grpc"
 )
 
 func InitServer() {
@@ -35,7 +33,7 @@ func InitServer() {
 		errs <- fmt.Errorf("%s", <-c)
 	}()
 
-	e := endpoints.MakeEndpoints(service.NewMathServiceImpl())
+	e := endpoints.MakeEndpoints(service.NewAuthServiceImpl())
 	StartServer(logger, e, true, true)
 
 	level.Error(logger).Log("exit", <-errs)
@@ -45,10 +43,6 @@ func StartServer(logger log.Logger, e endpoints.Endpoints, startGRPC, startHTTP 
 	err := config.InitialDBMigration(config.NewDB())
 	if err != nil {
 		panic(err)
-	}
-
-	if startGRPC {
-		startGRPCServer(logger, e)
 	}
 
 	if startHTTP {
@@ -68,23 +62,6 @@ func startHTTPServer(logger log.Logger, e endpoints.Endpoints) {
 	go func() {
 		level.Info(logger).Log("msg", "Starting HTTP server 🚀")
 		http.Serve(listener, httpHandler)
-	}()
-}
-
-func startGRPCServer(logger log.Logger, endpoints endpoints.Endpoints) {
-	listener, err := getListener(os.Getenv("GRPC_PORT"))
-	if err != nil {
-		logger.Log("transport", "GRPC", "during", "Listen", "err", err)
-		os.Exit(1)
-	}
-
-	grpcServer := transport.NewGRPCServer(endpoints)
-	baseServer := grpc.NewServer()
-	pb.RegisterMathServiceServer(baseServer, grpcServer)
-
-	go func() {
-		level.Info(logger).Log("msg", "Starting GRPC server 🚀")
-		baseServer.Serve(listener)
 	}()
 }
 
