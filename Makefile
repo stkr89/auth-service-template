@@ -1,2 +1,2 @@
 build:
-	docker build -t ats-authsvc:latest .
+	docker build -t ats_authsvc:latest .

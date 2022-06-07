@@ -51,7 +51,8 @@ func StartServer(logger log.Logger, e endpoints.Endpoints, startGRPC, startHTTP 
 }
 
 func startHTTPServer(logger log.Logger, e endpoints.Endpoints) {
-	listener, err := getListener(os.Getenv("PORT"))
+	httpPort := os.Getenv("HTTP_PORT")
+	listener, err := getListener(httpPort)
 	if err != nil {
 		logger.Log("transport", "HTTP", "during", "Listen", "err", err)
 		os.Exit(1)
@@ -60,7 +61,7 @@ func startHTTPServer(logger log.Logger, e endpoints.Endpoints) {
 	httpHandler := transport.NewHTTPHandler(e)
 
 	go func() {
-		level.Info(logger).Log("msg", "Starting HTTP server 🚀")
+		level.Info(logger).Log("msg", fmt.Sprintf("Starting HTTP server 🚀 at %s", httpPort))
 		http.Serve(listener, httpHandler)
 	}()
 }
