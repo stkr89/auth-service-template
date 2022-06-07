@@ -9,6 +9,7 @@ import (
 	"github.com/stkr89/authsvc/dao"
 	"github.com/stkr89/authsvc/models"
 	"github.com/stkr89/authsvc/types"
+	"gorm.io/gorm"
 )
 
 // AuthService interface
@@ -31,6 +32,16 @@ func NewAuthServiceImpl() *AuthServiceImpl {
 }
 
 func (s AuthServiceImpl) CreateUser(ctx context.Context, request *types.CreateUserRequest) (*types.CreateUserResponse, error) {
+	existingUser, err := s.authDao.GetUserByEmail(request.Email)
+	if err != nil && err != gorm.ErrRecordNotFound {
+		s.logger.Log("error", err)
+		return nil, common.UserAlreadyExists
+	}
+
+	if existingUser.Email != "" {
+		return nil, common.UserAlreadyExists
+	}
+
 	createdUser, err := s.authDao.CreateUser(&models.User{
 		FirstName: request.FirstName,
 		LastName:  request.LastName,

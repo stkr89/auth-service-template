@@ -10,6 +10,7 @@ import (
 
 type AuthDao interface {
 	CreateUser(user *models.User) (*models.User, error)
+	GetUserByEmail(email string) (*models.User, error)
 }
 
 type AuthDaoImpl struct {
@@ -22,6 +23,17 @@ func NewAuthDaoImpl() *AuthDaoImpl {
 		logger: common.NewLogger(),
 		db:     config.NewDB(),
 	}
+}
+
+func (a AuthDaoImpl) GetUserByEmail(email string) (*models.User, error) {
+	obj := models.User{}
+	result := a.db.Where("email = ?", email).First(&obj)
+	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
+		a.logger.Log("message", "failed to get by email", "email", email, "error", result.Error)
+		return nil, common.SomethingWentWrong
+	}
+
+	return &obj, nil
 }
 
 func (a AuthDaoImpl) CreateUser(user *models.User) (*models.User, error) {
