@@ -44,7 +44,7 @@ func (s AuthServiceImpl) SignIn(ctx context.Context, user *types.SignInRequest) 
 	}
 
 	return &types.SignInResponse{
-		AccessToken: *auth.AuthenticationResult.AccessToken,
+		AccessToken: *auth.AuthenticationResult.IdToken,
 	}, nil
 }
 
