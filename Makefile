@@ -1,2 +1,2 @@
 build:
-	docker build -t ats_authsvc:latest .
+	docker build -t go-auth-service-template:latest .
