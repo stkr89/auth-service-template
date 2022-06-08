@@ -13,6 +13,7 @@ import (
 // AuthService interface
 type AuthService interface {
 	SignUp(ctx context.Context, request *types.SignUpRequest) (*types.SignUpResponse, error)
+	SignIn(ctx context.Context, user *types.SignInRequest) (*types.SignInResponse, error)
 }
 
 type AuthServiceImpl struct {
@@ -27,6 +28,26 @@ func NewAuthServiceImpl() *AuthServiceImpl {
 	}
 }
 
+func (s AuthServiceImpl) SignIn(ctx context.Context, user *types.SignInRequest) (*types.SignInResponse, error) {
+	authInput := &cognito.InitiateAuthInput{
+		AuthFlow: aws.String(cognito.AuthFlowTypeUserPasswordAuth),
+		AuthParameters: map[string]*string{
+			"USERNAME": aws.String(user.Email),
+			"PASSWORD": aws.String(user.Password),
+		},
+		ClientId: s.getClientId(),
+	}
+	auth, err := s.client.InitiateAuth(authInput)
+	if err != nil {
+		s.logger.Log("message", "unable to signin user", "error", err)
+		return nil, err
+	}
+
+	return &types.SignInResponse{
+		AccessToken: *auth.AuthenticationResult.AccessToken,
+	}, nil
+}
+
 func (s AuthServiceImpl) SignUp(ctx context.Context, request *types.SignUpRequest) (*types.SignUpResponse, error) {
 	awsUser := &cognito.SignUpInput{
 		Username: aws.String(request.Email),
@@ -34,11 +55,11 @@ func (s AuthServiceImpl) SignUp(ctx context.Context, request *types.SignUpReques
 		ClientId: s.getClientId(),
 		UserAttributes: []*cognito.AttributeType{
 			{
-				Name:  common.StringToPtr("custom:firstName"),
+				Name:  aws.String("custom:firstName"),
 				Value: &request.FirstName,
 			},
 			{
-				Name:  common.StringToPtr("custom:lastName"),
+				Name:  aws.String("custom:lastName"),
 				Value: &request.LastName,
 			},
 		},
@@ -47,7 +68,7 @@ func (s AuthServiceImpl) SignUp(ctx context.Context, request *types.SignUpReques
 	signUpOutput, err := s.client.SignUp(awsUser)
 	if err != nil {
 		s.logger.Log("message", "unable to signup user", "error", err)
-		return nil, common.SignUpFailed
+		return nil, err
 	}
 
 	s.logger.Log("message", "sign up successful", "email", request.Email)

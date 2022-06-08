@@ -10,11 +10,20 @@ import (
 
 type Endpoints struct {
 	SignUp endpoint.Endpoint
+	SignIn endpoint.Endpoint
 }
 
 func MakeEndpoints(s service.AuthService) Endpoints {
 	return Endpoints{
 		SignUp: makeSignUpEndpoint(s),
+		SignIn: makeSignInEndpoint(s),
+	}
+}
+
+func makeSignInEndpoint(s service.AuthService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+		req := request.(*types.SignInRequest)
+		return s.SignIn(ctx, req)
 	}
 }
 

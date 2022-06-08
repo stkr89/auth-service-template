@@ -9,6 +9,21 @@ import (
 	"strings"
 )
 
+func ValidateSignInInput() endpoint.Middleware {
+	return func(next endpoint.Endpoint) endpoint.Endpoint {
+		return func(ctx context.Context, request interface{}) (interface{}, error) {
+			req := request.(*types.SignInRequest)
+			err := validator.New().Struct(req)
+			err = validateUtil(err)
+			if err != nil {
+				return nil, err
+			}
+
+			return next(ctx, req)
+		}
+	}
+}
+
 func ValidateSignUpInput() endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (interface{}, error) {

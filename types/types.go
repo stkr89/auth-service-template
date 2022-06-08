@@ -1,5 +1,14 @@
 package types
 
+type SignInRequest struct {
+	Email    string `json:"email" validate:"required"`
+	Password string `json:"password" validate:"required"`
+}
+
+type SignInResponse struct {
+	AccessToken string `json:"accessToken"`
+}
+
 type SignUpRequest struct {
 	FirstName string `json:"firstName" validate:"required" conform:"name"`
 	LastName  string `json:"lastName" validate:"required" conform:"name"`

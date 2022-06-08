@@ -27,6 +27,14 @@ func NewHTTPHandler(endpoints endpoints.Endpoints) http.Handler {
 		decodeHTTPSignUpRequest,
 		encodeHTTPGenericResponse,
 	)).Methods(http.MethodPost)
+	m.Handle("/api/v1/signin", httptransport.NewServer(
+		endpoint.Chain(
+			middleware.ValidateSignInInput(),
+			middleware.ConformSignInInput(),
+		)(endpoints.SignIn),
+		decodeHTTPSignInRequest,
+		encodeHTTPGenericResponse,
+	)).Methods(http.MethodPost)
 
 	return m
 }
@@ -51,6 +59,12 @@ func encodeHTTPGenericResponse(ctx context.Context, w http.ResponseWriter, respo
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	return json.NewEncoder(w).Encode(response)
+}
+
+func decodeHTTPSignInRequest(_ context.Context, r *http.Request) (interface{}, error) {
+	var req types.SignInRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	return &req, err
 }
 
 func decodeHTTPSignUpRequest(_ context.Context, r *http.Request) (interface{}, error) {
