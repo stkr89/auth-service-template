@@ -6,10 +6,10 @@ import (
 	"github.com/go-kit/kit/endpoint"
 	httptransport "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
-	"github.com/stkr89/auth-service-template/common"
-	"github.com/stkr89/auth-service-template/endpoints"
-	"github.com/stkr89/auth-service-template/middleware"
-	"github.com/stkr89/auth-service-template/types"
+	"github.com/stkr89/go-auth-service-template/common"
+	"github.com/stkr89/go-auth-service-template/endpoints"
+	"github.com/stkr89/go-auth-service-template/middleware"
+	"github.com/stkr89/go-auth-service-template/types"
 	"net/http"
 )
 

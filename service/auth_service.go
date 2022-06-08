@@ -5,8 +5,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	cognito "github.com/aws/aws-sdk-go/service/cognitoidentityprovider"
 	"github.com/go-kit/kit/log"
-	"github.com/stkr89/auth-service-template/common"
-	"github.com/stkr89/auth-service-template/types"
+	"github.com/stkr89/go-auth-service-template/common"
+	"github.com/stkr89/go-auth-service-template/types"
 	"os"
 )
 

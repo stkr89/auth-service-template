@@ -5,7 +5,7 @@ import (
 	"errors"
 	"github.com/go-kit/kit/endpoint"
 	"github.com/go-playground/validator/v10"
-	"github.com/stkr89/auth-service-template/types"
+	"github.com/stkr89/go-auth-service-template/types"
 	"strings"
 )
 
