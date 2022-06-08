@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/stkr89/authsvc/models"
+	"github.com/stkr89/auth-service-template/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

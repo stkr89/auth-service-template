@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/stkr89/authsvc/cmd/server"
+	"github.com/stkr89/auth-service-template/cmd/server"
 )
 
 func main() {

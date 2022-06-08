@@ -2,9 +2,9 @@ package dao
 
 import (
 	"github.com/go-kit/log"
-	"github.com/stkr89/authsvc/common"
-	"github.com/stkr89/authsvc/config"
-	"github.com/stkr89/authsvc/models"
+	"github.com/stkr89/auth-service-template/common"
+	"github.com/stkr89/auth-service-template/config"
+	"github.com/stkr89/auth-service-template/models"
 	"gorm.io/gorm"
 )
 

@@ -2,11 +2,11 @@ package test
 
 import (
 	"github.com/joho/godotenv"
-	"github.com/stkr89/authsvc/cmd/server"
-	"github.com/stkr89/authsvc/common"
-	"github.com/stkr89/authsvc/endpoints"
-	"github.com/stkr89/authsvc/service"
-	transport "github.com/stkr89/authsvc/transports"
+	"github.com/stkr89/auth-service-template/cmd/server"
+	"github.com/stkr89/auth-service-template/common"
+	"github.com/stkr89/auth-service-template/endpoints"
+	"github.com/stkr89/auth-service-template/service"
+	transport "github.com/stkr89/auth-service-template/transports"
 	"github.com/stretchr/testify/suite"
 	"net/http"
 	"testing"

@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/go-kit/kit/endpoint"
 	"github.com/leebenson/conform"
-	"github.com/stkr89/authsvc/types"
+	"github.com/stkr89/auth-service-template/types"
 )
 
 func ConformCreateUserInput() endpoint.Middleware {

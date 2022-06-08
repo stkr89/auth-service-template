@@ -1,4 +1,4 @@
-module github.com/stkr89/authsvc
+module github.com/stkr89/auth-service-template
 
 go 1.18
 

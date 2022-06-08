@@ -2,10 +2,10 @@ package endpoints
 
 import (
 	"context"
-	"github.com/stkr89/authsvc/types"
+	"github.com/stkr89/auth-service-template/types"
 
 	"github.com/go-kit/kit/endpoint"
-	"github.com/stkr89/authsvc/service"
+	"github.com/stkr89/auth-service-template/service"
 )
 
 type Endpoints struct {
