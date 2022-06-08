@@ -21,6 +21,6 @@ func MakeEndpoints(s service.AuthService) Endpoints {
 func makeCreateUserEndpoint(s service.AuthService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(*types.CreateUserRequest)
-		return s.CreateUser(ctx, req)
+		return s.SignUp(ctx, req)
 	}
 }
