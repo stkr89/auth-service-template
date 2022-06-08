@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/go-kit/log"
 	"github.com/stkr89/auth-service-template/common"
-	"github.com/stkr89/auth-service-template/config"
 	"github.com/stkr89/auth-service-template/endpoints"
 	"github.com/stkr89/auth-service-template/service"
 	transport "github.com/stkr89/auth-service-template/transports"
@@ -40,11 +39,6 @@ func InitServer() {
 }
 
 func StartServer(logger log.Logger, e endpoints.Endpoints, startGRPC, startHTTP bool) {
-	err := config.InitialDBMigration(config.NewDB())
-	if err != nil {
-		panic(err)
-	}
-
 	if startHTTP {
 		startHTTPServer(logger, e)
 	}

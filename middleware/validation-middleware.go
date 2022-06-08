@@ -9,10 +9,10 @@ import (
 	"strings"
 )
 
-func ValidateCreateUserInput() endpoint.Middleware {
+func ValidateSignUpInput() endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (interface{}, error) {
-			req := request.(*types.CreateUserRequest)
+			req := request.(*types.SignUpRequest)
 			err := validator.New().Struct(req)
 			err = validateUtil(err)
 			if err != nil {

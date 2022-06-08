@@ -9,18 +9,18 @@ import (
 )
 
 type Endpoints struct {
-	CreateUser endpoint.Endpoint
+	SignUp endpoint.Endpoint
 }
 
 func MakeEndpoints(s service.AuthService) Endpoints {
 	return Endpoints{
-		CreateUser: makeCreateUserEndpoint(s),
+		SignUp: makeSignUpEndpoint(s),
 	}
 }
 
-func makeCreateUserEndpoint(s service.AuthService) endpoint.Endpoint {
+func makeSignUpEndpoint(s service.AuthService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
-		req := request.(*types.CreateUserRequest)
+		req := request.(*types.SignUpRequest)
 		return s.SignUp(ctx, req)
 	}
 }

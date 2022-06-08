@@ -7,10 +7,10 @@ import (
 	"github.com/stkr89/auth-service-template/types"
 )
 
-func ConformCreateUserInput() endpoint.Middleware {
+func ConformSignUpInput() endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (interface{}, error) {
-			req := request.(*types.CreateUserRequest)
+			req := request.(*types.SignUpRequest)
 			err := conform.Strings(req)
 			if err != nil {
 				return nil, err

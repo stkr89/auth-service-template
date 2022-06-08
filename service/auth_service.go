@@ -12,7 +12,7 @@ import (
 
 // AuthService interface
 type AuthService interface {
-	SignUp(ctx context.Context, request *types.CreateUserRequest) (*types.CreateUserResponse, error)
+	SignUp(ctx context.Context, request *types.SignUpRequest) (*types.SignUpResponse, error)
 }
 
 type AuthServiceImpl struct {
@@ -27,7 +27,7 @@ func NewAuthServiceImpl() *AuthServiceImpl {
 	}
 }
 
-func (s AuthServiceImpl) SignUp(ctx context.Context, request *types.CreateUserRequest) (*types.CreateUserResponse, error) {
+func (s AuthServiceImpl) SignUp(ctx context.Context, request *types.SignUpRequest) (*types.SignUpResponse, error) {
 	awsUser := &cognito.SignUpInput{
 		Username: aws.String(request.Email),
 		Password: aws.String(request.Password),
@@ -52,7 +52,7 @@ func (s AuthServiceImpl) SignUp(ctx context.Context, request *types.CreateUserRe
 
 	s.logger.Log("message", "sign up successful", "email", request.Email)
 
-	return &types.CreateUserResponse{
+	return &types.SignUpResponse{
 		ID:        *signUpOutput.UserSub,
 		FirstName: request.FirstName,
 		LastName:  request.LastName,
