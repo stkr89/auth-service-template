@@ -19,7 +19,7 @@ type errorWrapper struct {
 
 func NewHTTPHandler(endpoints endpoints.Endpoints) http.Handler {
 	m := mux.NewRouter()
-	m.Handle("/api/v1/signup", httptransport.NewServer(
+	m.Handle("/api/v1/auth/signup", httptransport.NewServer(
 		endpoint.Chain(
 			middleware.ValidateSignUpInput(),
 			middleware.ConformSignUpInput(),
@@ -27,7 +27,7 @@ func NewHTTPHandler(endpoints endpoints.Endpoints) http.Handler {
 		decodeHTTPSignUpRequest,
 		encodeHTTPGenericResponse,
 	)).Methods(http.MethodPost)
-	m.Handle("/api/v1/signin", httptransport.NewServer(
+	m.Handle("/api/v1/auth/signin", httptransport.NewServer(
 		endpoint.Chain(
 			middleware.ValidateSignInInput(),
 			middleware.ConformSignInInput(),
