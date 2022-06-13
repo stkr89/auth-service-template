@@ -39,16 +39,18 @@ func NewHTTPHandler(endpoints endpoints.Endpoints) http.Handler {
 	return m
 }
 
-func err2code(err error) int {
-	switch err {
+func err2code(err *common.Error) int {
+	switch err.Key {
 	case common.InvalidRequestBody:
 		return http.StatusBadRequest
+	case common.Unauthorized:
+		return http.StatusUnauthorized
 	}
 	return http.StatusInternalServerError
 }
 
 func errorEncoder(_ context.Context, err error, w http.ResponseWriter) {
-	w.WriteHeader(err2code(err))
+	w.WriteHeader(err2code(err.(*common.Error)))
 	json.NewEncoder(w).Encode(errorWrapper{Error: err.Error()})
 }
 

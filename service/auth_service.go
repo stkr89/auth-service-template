@@ -40,7 +40,7 @@ func (s AuthServiceImpl) SignIn(ctx context.Context, user *types.SignInRequest) 
 	auth, err := s.client.InitiateAuth(authInput)
 	if err != nil {
 		s.logger.Log("message", "unable to signin user", "error", err)
-		return nil, err
+		return nil, common.NewError(common.Unauthorized, "signin failed")
 	}
 
 	return &types.SignInResponse{
@@ -68,7 +68,7 @@ func (s AuthServiceImpl) SignUp(ctx context.Context, request *types.SignUpReques
 	signUpOutput, err := s.client.SignUp(awsUser)
 	if err != nil {
 		s.logger.Log("message", "unable to signup user", "error", err)
-		return nil, err
+		return nil, common.NewError(common.SomethingWentWrong, "signup failed")
 	}
 
 	s.logger.Log("message", "sign up successful", "email", request.Email)
