@@ -1,4 +1,4 @@
-# go-auth-service-template
+# go-cognito-auth-service-template
 
 ## Getting started
 - Update module name in `go.mod`
